@@ -26,8 +26,8 @@
 using namespace std;
 
 typedef struct {
-	char *bundle_path;  
-	
+	char *bundle_path;
+
 	presets* widget_presets;
 
 	Gtk::HBox* container;
@@ -87,7 +87,7 @@ static GtkWidget* make_gui(triceratopsGUI *self) {
 	{
 		string temp_str;
 		string line;
-		while (getline(check_file,line))  
+		while (getline(check_file,line))
 		{
 
 			if (line.find("topcolour", 0)==0)
@@ -116,7 +116,7 @@ static GtkWidget* make_gui(triceratopsGUI *self) {
 		string temp_str;
 		string line;
 		cout << "Loading local config file.." << endl;
-		while (getline(check_file,line))  
+		while (getline(check_file,line))
 		{
 
 			if (line.find("topcolour", 0)==0)
@@ -137,7 +137,7 @@ static GtkWidget* make_gui(triceratopsGUI *self) {
 		fstream local_config_file;
 		local_config_file.open(local_config_filename.str()  , ios::out );
 
-		if (local_config_file) 
+		if (local_config_file)
 		{
 
 			local_config_file << "topcolour=" << top_colour.to_string() << endl;
@@ -162,9 +162,9 @@ static GtkWidget* make_gui(triceratopsGUI *self) {
 
 	self->widget_presets->set_size_request(160,260);
 
-	// self->vbox3->add(*self->widget_presets->button_go_back);	
-	self->vbox3->add(*self->widget_presets);	
-	// self->vbox3->add(*self->widget_presets->button_save_preset);	
+	// self->vbox3->add(*self->widget_presets->button_go_back);
+	self->vbox3->add(*self->widget_presets);
+	// self->vbox3->add(*self->widget_presets->button_save_preset);
 
 	self->container->add(*self->vbox3);
 
@@ -324,18 +324,18 @@ static LV2UI_Handle instantiate(const struct _LV2UI_Descriptor * descriptor,
         fprintf(stderr, "SORCER_URI error: this GUI does not support plugin with URI %s\n", plugin_uri);
         return NULL;
     }
-    
+
     triceratopsGUI* self = (triceratopsGUI*)malloc(sizeof(triceratopsGUI));
-    
+
     if (self == NULL) return NULL;
 
 	self->bundle_path = (char*)malloc(strlen(bundle_path)+1);
 	memcpy (self->bundle_path,bundle_path,strlen(bundle_path)+1);
 
 	Gtk::Main::init_gtkmm_internals();
-	
+
 	*widget = (LV2UI_Widget)make_gui(self);
-	
+
 	self->dco1->set_controller(controller,write_function);
 	self->dco2->set_controller(controller,write_function);
 	self->dco3->set_controller(controller,write_function);
@@ -351,7 +351,7 @@ static LV2UI_Handle instantiate(const struct _LV2UI_Descriptor * descriptor,
 
 	self->amp_and_filter->set_controller(controller,write_function);
 	self->echo->set_controller(controller,write_function);
-	self->modifier->set_controller(controller,write_function); 
+	self->modifier->set_controller(controller,write_function);
 	self->reverb->set_controller(controller,write_function);
 
 	self->widget_presets->dco1 = self->dco1;
@@ -400,7 +400,7 @@ static void port_event(LV2UI_Handle ui,
 {
 	triceratopsGUI *self = (triceratopsGUI *) ui;
 	float val = * static_cast<const float*>(buffer);
-    
+
 	switch (port_index)
 	{
 
@@ -439,7 +439,7 @@ static void port_event(LV2UI_Handle ui,
 			break;
 
 		case TRICERATOPS_SYNC:
-			self->amp_and_filter->gui_sync->set_value( val );	
+			self->amp_and_filter->gui_sync->set_value( val );
 			break;
 
 		case TRICERATOPS_FM:
@@ -644,14 +644,14 @@ static void port_event(LV2UI_Handle ui,
 			self->dco3->gui_inertia->set_value( val );
 			break;
 
-	
+
 
 		// LFO ONE
 
 		case TRICERATOPS_LFO1_RETRIG:
 			self->lfo1->gui_retrig->set_value( val );
 			break;
-			
+
 		case TRICERATOPS_LFO1_SPEED:
 			self->lfo1->gui_speed->set_value( val );
 			break;
@@ -699,7 +699,7 @@ static void port_event(LV2UI_Handle ui,
 		case TRICERATOPS_LFO2_RETRIG:
 			self->lfo2->gui_retrig->set_value( val );
 			break;
-			
+
 		case TRICERATOPS_LFO2_SPEED:
 			self->lfo2->gui_speed->set_value( val );
 			break;
@@ -745,7 +745,7 @@ static void port_event(LV2UI_Handle ui,
 		case TRICERATOPS_LFO3_RETRIG:
 			self->lfo3->gui_retrig->set_value( val );
 			break;
-			
+
 		case TRICERATOPS_LFO3_SPEED:
 			self->lfo3->gui_speed->set_value( val );
 			break;
@@ -893,7 +893,6 @@ static LV2UI_Descriptor descriptors[] = {
 };
 
 const LV2UI_Descriptor * lv2ui_descriptor(uint32_t index) {
-    printf("lv2ui_descriptor(%u) called\n", (unsigned int)index); 
     if (index >= sizeof(descriptors) / sizeof(descriptors[0])) {
         return NULL;
     }
