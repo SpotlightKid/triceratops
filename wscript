@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os
-import sys 
+import sys
 import shutil
 from waflib import Logs
 from waflib.extras import autowaf as autowaf
@@ -18,16 +18,17 @@ def options(opt):
     opt.load('compiler_cxx')
     autowaf.set_options(opt)
 
-def configure(conf):	
+def configure(conf):
     conf.load('compiler_c')
     conf.load('compiler_cxx')
     autowaf.configure(conf)
     autowaf.display_header('triceratops Configuration')
-   
+
     if conf.env['MSVC_COMPILER']:
         conf.env.append_unique('CXXFLAGS', ['-TP', '-MD', '-g'])
     else:
-        conf.env.append_unique('CXXFLAGS', ['-O2','-funroll-loops','-std=c++0x','-g'])
+        conf.env.append_unique('CXXFLAGS',
+            ['-O2', '-funroll-loops', '-fvisibility=hidden', '-std=c++0x', '-g'])
 
     if sys.maxsize >= 9223372036854775807:
         print("detected 64 bit architecture, enabling -fPIC")
@@ -88,7 +89,7 @@ def build(bld):
               install_path = '${LV2DIR}/%s' % bundle,
               uselib       = 'LV2CORE',
               includes     = includes)
-    
+
     # Build UI library
     obj = bld(features     = 'cxx cshlib',
               env          = penv,
@@ -103,7 +104,3 @@ def build(bld):
     bld.install_files('${LV2DIR}/triceratops.lv2/', 'triceratops.conf')
     bld.install_files('${LV2DIR}/triceratops.lv2/', 'triceratops_categories.txt')
     bld.install_files('${LV2DIR}/triceratops-presets.lv2', bld.path.ant_glob('presets.lv2/*.*'))
-
-
-
-
