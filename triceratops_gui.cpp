@@ -893,7 +893,7 @@ static LV2UI_Descriptor descriptors[] = {
 };
 
 const LV2UI_Descriptor * lv2ui_descriptor(uint32_t index) {
-    printf("lv2ui_descriptor(%u) called\n", (unsigned int)index);
+    //printf("lv2ui_descriptor(%u) called\n", (unsigned int)index);
     if (index >= sizeof(descriptors) / sizeof(descriptors[0])) {
         return NULL;
     }
